@@ -21,4 +21,78 @@
 
 [Подробное описание и локальный запуск](docs/application-guide.md).
 
-<!-- Здесь будет Mermaid-схема архитектуры будущего проекта, предоставленная автором. -->
+## Архитектура будущей версии
+
+```mermaid
+flowchart TB
+    subgraph UI["1. Пользовательский интерфейс"]
+        direction LR
+        CAB["Кабинет: сохранённые портфели"]
+        PORT["Создание и редактирование портфеля"]
+        CHAT["Чат, голос, статьи и видео"]
+        CAB --> PORT --> CHAT
+    end
+
+    CORE["Сервис приложения: сессии, контекст, этапы, подтверждение изменений"]
+    CHAT --> CORE
+
+    subgraph SC["2. Подсценарии"]
+        direction LR
+        PROFILE["Профиль: идеи, запреты, горизонт, паутинка"]
+        CHECK["Проверка идеи: RAG и источники"]
+        BUILD["Подбор бумаг и расчёт долей"]
+        MEDIA["Обработка аудио и видео"]
+    end
+
+    CORE --> PROFILE
+    CORE --> CHECK
+    CORE --> BUILD
+    CORE --> MEDIA
+
+    subgraph MODELS["3. LLM и модели"]
+        direction LR
+        LLM["LLM: диалог, извлечение идей, объяснения"]
+        EMB["Эмбеддинги: смысловой поиск"]
+        SCORE["ML и правила: пять оценок"]
+        OPT["Оптимизатор: доли и ограничения"]
+    end
+
+    PROFILE --> LLM
+    PROFILE --> SCORE
+    CHECK --> LLM
+    CHECK --> EMB
+    BUILD --> EMB
+    BUILD --> OPT
+
+    subgraph DATA["4. Базы данных и хранилища"]
+        direction LR
+        CLIENT[("БД клиента: диалоги, версии профилей, портфели")]
+        VECTOR[("Векторная база: аналитика, документы, описания бумаг")]
+        STOCK[("БД бумаг: рыночные данные и пять оценок")]
+        FILES[("Файлы: материалы, расшифровки, таймкоды")]
+    end
+
+    PROFILE <--> CLIENT
+    EMB <--> VECTOR
+    BUILD --> STOCK
+    MEDIA --> FILES
+
+    subgraph API["5. Внешние API"]
+        direction LR
+        PULSE["Пульс и аналитика банка"]
+        SEARCH["Веб-поиск: новости и документы"]
+        ASR["Расшифровка аудио и видео"]
+        MARKET["Данные по ценным бумагам"]
+    end
+
+    CHECK <--> SEARCH
+    MEDIA <--> ASR
+    MEDIA -->|получение материала| PULSE
+
+    UPDATE["Фоновое обновление: загрузка данных, пересчёт оценок, индексация"]
+    PULSE --> UPDATE
+    MARKET --> UPDATE
+    UPDATE --> STOCK
+    UPDATE --> VECTOR
+    UPDATE --> FILES
+```
