@@ -1,0 +1,10 @@
+**
+!requirements.txt
+!backend/
+!backend/*.py
+!frontend/
+!frontend/**
+!scripts/
+!scripts/*.py
+!data/
+!data/universe.json

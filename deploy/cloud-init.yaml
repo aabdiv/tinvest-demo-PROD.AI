@@ -1,0 +1,26 @@
+#cloud-config
+# Fresh Ubuntu 24.04 LTS only. Add your SSH key separately in Timeweb.
+# No project code, passwords or OpenRouter keys belong in this file.
+runcmd:
+  - |
+    set -eu
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y ca-certificates curl rsync
+    install -m 0755 -d /etc/apt/keyrings
+    curl --retry 3 -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+    chmod a+r /etc/apt/keyrings/docker.asc
+    cat > /etc/apt/sources.list.d/docker.sources <<'REPO'
+    Types: deb
+    URIs: https://download.docker.com/linux/ubuntu
+    Suites: noble
+    Components: stable
+    Signed-By: /etc/apt/keyrings/docker.asc
+    REPO
+    apt-get update
+    apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    systemctl enable --now docker
+    install -d -m 0755 /opt/tinvest-demo
+    docker version
+    docker compose version
+final_message: "Cloud-init finished after $UPTIME seconds. Check cloud-init status --long before deploying."

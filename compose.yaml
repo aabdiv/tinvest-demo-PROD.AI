@@ -1,0 +1,54 @@
+name: tinvest-demo
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    init: true
+    environment:
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      OPENROUTER_BASE_URL: ${OPENROUTER_BASE_URL:-https://openrouter.ai/api/v1}
+      FAST_MODEL: ${FAST_MODEL:-qwen/qwen3.8-27b}
+      SMART_MODEL: ${SMART_MODEL:-moonshotai/kimi-k2.6}
+      FAST_PROVIDER_SORT: ${FAST_PROVIDER_SORT:-throughput}
+      DISABLE_REASONING: ${DISABLE_REASONING:-1}
+      MOCK_LLM: ${MOCK_LLM:-0}
+      ACCOUNT_DB_PATH: /state/account.sqlite3
+    volumes:
+      - account_data:/state
+    healthcheck:
+      test: ["CMD", "python", "-m", "scripts.demo_healthcheck"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+    logging: *logging
+
+  web:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      DEMO_ADDRESS: "http://:80"
+      DEMO_USER: ${DEMO_USER:-demo}
+      DEMO_PASSWORD_HASH: ${DEMO_PASSWORD_HASH:?Set DEMO_PASSWORD_HASH in .env.deploy}
+    ports:
+      - "127.0.0.1:8080:80"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    logging: *logging
+
+volumes:
+  account_data:
+  caddy_data:
+  caddy_config:

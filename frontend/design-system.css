@@ -1,0 +1,125 @@
+/* Shared visual tokens for the independent T-Bank-style version 2. */
+@font-face {
+  font-family: Manrope;
+  src: url('/static/fonts/manrope-400.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: Manrope;
+  src: url('/static/fonts/manrope-500.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: Manrope;
+  src: url('/static/fonts/manrope-600.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: Manrope;
+  src: url('/static/fonts/manrope-700.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: Manrope;
+  src: url('/static/fonts/manrope-800.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --font-family: Manrope, Arial, sans-serif;
+  --bg: #FFFFFF;
+  --card: #F5F5F5;
+  --inner: #FFFFFF;
+  --line: #E5E5E5;
+  --line2: #E5E5E5;
+  --text: #1C1C1C;
+  --muted: #666666;
+  --yellow: #FFDD2D;
+  --green: #16834A;
+  --orange: #8C6400;
+  --red: #D92D20;
+  --redbg: #FFF1F0;
+  --blue: #333333;
+  --mandate: #FFDD2D;
+  --mandate-line: #FFDD2D;
+  --chart-grid: #DEDEDE;
+  --chart-text: #1C1C1C;
+  --chart-muted: #666666;
+  --chart-accent: #333333;
+  --chart-target: #FFDD2D;
+  --chart-comparison: #333333;
+  --chart-ghost: #999999;
+}
+
+html {
+  scroll-padding-top: 108px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, textarea, select {
+  font: inherit;
+}
+
+button, a, input, textarea, select, summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a {
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible,
+textarea:focus-visible, select:focus-visible, summary:focus-visible {
+  outline: 2px solid #333333;
+  outline-offset: 4px;
+}
+
+::selection {
+  color: #1C1C1C;
+  background: #FFDD2D;
+}
+
+.design-inline-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: -3px;
+  flex-shrink: 0;
+}
+
+.radar-surface, .radar-card {
+  --text: #FFFFFF;
+  --muted: #C4C4C4;
+  --card: #1C1C1C;
+  --inner: #333333;
+  --line: #484848;
+  --chart-grid: #454545;
+  --chart-text: #FFFFFF;
+  --chart-muted: #BDBDBD;
+  --chart-accent: #FFDD2D;
+  --chart-comparison: #FFFFFF;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto;
+    animation-duration: 0.01ms;
+    transition-duration: 0.01ms;
+  }
+}

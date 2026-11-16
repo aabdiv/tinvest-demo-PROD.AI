@@ -1,0 +1,8 @@
+# Use together with compose.yaml after DNS points to this server.
+services:
+  web:
+    environment:
+      DEMO_ADDRESS: ${DEMO_DOMAIN:?Set DEMO_DOMAIN to your domain name in .env.deploy}
+    ports:
+      - "80:80"
+      - "443:443"

@@ -1,0 +1,10 @@
+.env
+.env.deploy
+backups/
+__pycache__/
+*.pyc
+.venv/
+data/universe.json
+tests/universe.fake.json
+data/*.sqlite3
+data/*.sqlite3-*

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Профиль агента · Т-Инвестиции Premarket MVP</title>
+<link rel="stylesheet" href="/static/design-system.css">
+<link rel="stylesheet" href="/static/styles.css">
+<link rel="stylesheet" href="/static/account.css">
+<link rel="stylesheet" href="/static/interactions.css?v=20261116-1">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo" aria-hidden="true"></span>Профиль агента <span class="muted">· Premarket MVP</span></div>
+  <div class="top-right">
+    <button id="undo" class="ghost" title="Отменить последнее действие">Отменить</button>
+    <button id="reset" class="ghost">Начать заново</button>
+  </div>
+</header>
+
+<div id="uni-error" class="banner hidden"></div>
+
+<main class="grid">
+  <!-- Колонка 1: слова человека -->
+  <section class="col">
+    <div class="card">
+      <label for="wish" class="h3">Расскажите, чего вы хотите</label>
+      <textarea id="wish" placeholder="Например: хочу стабильные дивиденды, чтобы через 5 лет был дополнительный доход. Нефть не хочу. Боюсь повторения 2022 года. Верю в российский IT."></textarea>
+      <div class="row">
+        <span class="muted small">Ctrl + Enter — отправить. Можно дописывать комментарии по ходу.</span>
+        <button id="send" class="primary">Отправить</button>
+      </div>
+      <div id="examples" class="chips"></div>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+
+    <div class="card">
+      <div class="h3">Что понял агент</div>
+      <div id="wishes" class="chips"><span class="muted small">Пока пусто. Напишите пару фраз выше.</span></div>
+    </div>
+
+    <div id="conflicts"></div>
+
+    <div class="card">
+      <div class="h3">Параметры вне паутины</div>
+      <div class="param">
+        <div class="row"><label for="amount">Сумма</label><b id="amount-v" class="val">500 000 ₽</b></div>
+        <input id="amount" type="range" min="50000" max="5000000" step="50000" value="500000">
+        <div class="ticks"><span>50 тыс. ₽</span><span>2,5 млн ₽</span><span>5 млн ₽</span></div>
+      </div>
+      <div class="param">
+        <div class="row"><label for="horizon">Горизонт</label><b id="horizon-v" class="val">5 лет</b></div>
+        <input id="horizon" type="range" min="1" max="20" step="1" value="5">
+        <div class="ticks"><span>1 год</span><span>10 лет</span><span>20 лет</span></div>
+      </div>
+    </div>
+
+    <div class="card redcard">
+      <div class="row"><div class="h3 redtitle"><span class="reddot" aria-hidden="true"></span>Красные линии</div><span class="small redsub">запреты: агент их не нарушит</span></div>
+      <div id="redlines"></div>
+      <form id="rl-form" class="inline-form">
+        <label for="rl-input" class="sr">Новый запрет</label>
+        <input id="rl-input" placeholder="Добавить запрет: «без банков», «не больше 10% в IT»">
+        <button class="danger" type="submit">Запретить</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Колонка 2: паутина, мандат, итог -->
+  <section class="col col-main">
+    <div class="card radar-surface">
+      <div class="row">
+        <div class="h2">Форма портфеля</div>
+        <div class="legend">
+          <span><i class="sw sw-target"></i>цель</span>
+          <span><i class="sw sw-fill"></i>что собрал агент</span>
+          <span><i class="sw sw-ghost"></i>до правки</span>
+        </div>
+      </div>
+      <div class="muted small">Тяните жёлтые точки. Ось, которую вы двигали, закрепляется; нажмите на её подпись, чтобы открепить.</div>
+      <div class="radar-wrap"><svg id="radar" viewBox="0 0 580 420" role="img" aria-label="Паутина профиля"></svg></div>
+      <div id="notes"></div>
+    </div>
+
+    <div class="card mandate">
+      <div class="row"><div class="h2">Мандат агента</div><span id="mandate-status" class="muted small"></span></div>
+      <p id="mandate">Появится, как только агент поймёт ваши пожелания.</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><div class="h3">Как этот портфель вёл бы себя последние 3 года</div><span class="muted small">история, не прогноз</span></div>
+      <div class="metrics">
+        <div class="metric"><span>Доходность в год</span><b id="m-ret">—</b></div>
+        <div class="metric"><span>Худшая просадка</span><b id="m-dd">—</b></div>
+        <div class="metric"><span>Дивиденды и купоны в год</span><b id="m-inc">—</b></div>
+        <div class="metric"><span>Совпадение с целью</span><b id="m-fit">—</b></div>
+      </div>
+      <svg id="spark" viewBox="0 0 600 120" preserveAspectRatio="none" aria-label="Стоимость портфеля за 3 года"></svg>
+      <div id="sectors" class="sectors"></div>
+    </div>
+
+    <div class="card">
+      <div class="h3">Как действует агент</div>
+      <div class="seg" role="radiogroup" aria-label="Самостоятельность агента">
+        <button role="radio" data-v="ask">Спрашивает о каждой сделке</button>
+        <button role="radio" data-v="auto">Сам в рамках мандата</button>
+      </div>
+      <div class="muted small">В любом режиме сделка показывается на паутине, а нарушить красные линии агент не может.</div>
+      <div class="row gap">
+        <button id="trust" class="primary big">Доверить портфель агенту</button>
+        <button id="simulate" class="secondary big hidden">Прожить квартал рынка</button>
+      </div>
+      <div id="agent-log" class="log"></div>
+    </div>
+  </section>
+
+  <!-- Колонка 3: бумаги -->
+  <section class="col">
+    <div class="card">
+      <div class="h3">Бумаги</div>
+      <form id="theme-form" class="inline-form">
+        <label for="theme-input" class="sr">Найти по смыслу</label>
+        <input id="theme-input" placeholder="Найти по смыслу: кто выиграет от снижения ставки">
+        <button class="secondary" type="submit">Найти</button>
+      </form>
+      <div id="themes" class="chips"></div>
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="holdings" class="on">В портфеле</button>
+        <button role="tab" data-tab="candidates">Рассматривал</button>
+        <button role="tab" data-tab="blocked">Исключено</button>
+      </div>
+      <div id="legend-mini" class="legend"><span><i class="sw sw-target"></i>ваш профиль</span><span><i class="sw sw-blue"></i>бумага</span></div>
+      <div id="sec-list"></div>
+    </div>
+    <div id="sec-detail" class="card hidden"></div>
+  </section>
+</main>
+
+<footer class="calls"><span class="muted small">Вызовы моделей:</span><div id="calls"></div></footer>
+
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <div class="row"><div id="modal-title" class="h2">Предложение агента</div><button id="modal-close" class="ghost" aria-label="Закрыть">✕</button></div>
+    <p id="modal-why" class="lead"></p>
+    <div class="modal-grid">
+      <div>
+        <svg id="modal-radar" viewBox="0 0 580 420" role="img" aria-label="Мандат, портфель сейчас и после сделок"></svg>
+        <div class="legend center">
+          <span><i class="sw sw-ghost"></i>мандат</span><span><i class="sw sw-white"></i>сейчас</span><span><i class="sw sw-fill"></i>после сделок</span>
+        </div>
+        <div class="metrics two"><div class="metric"><span>Совпадение сейчас</span><b id="fit-before">—</b></div><div class="metric"><span>После сделок</span><b id="fit-after">—</b></div></div>
+      </div>
+      <div>
+        <div class="h3">Красные линии</div>
+        <div id="modal-checks"></div>
+        <div class="h3" style="margin-top:14px">Сделки</div>
+        <div id="modal-trades" class="trades"></div>
+      </div>
+    </div>
+    <div class="row gap end">
+      <button id="modal-reject" class="secondary">Отклонить</button>
+      <button id="modal-confirm" class="primary">Подтвердить</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<script src="/static/cabinet.js?v=20261116-1"></script>
+<script src="/static/app.js"></script>
+<script src="/static/interactions.js?v=20261116-1"></script>
+</body>
+</html>

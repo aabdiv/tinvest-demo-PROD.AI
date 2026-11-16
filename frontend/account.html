@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Аккаунт · Портфели с агентом</title>
+  <link rel="stylesheet" href="/static/design-system.css">
+<link rel="stylesheet" href="/static/v2.css"><link rel="stylesheet" href="/static/account.css">
+<link rel="stylesheet" href="/static/interactions.css?v=20261116-1">
+</head>
+<body class="cabinet">
+  <header class="cab-header"><a class="cab-brand" href="/account"><span class="cab-logo">т</span>Портфель с агентом <span class="cab-beta">PREMARKET</span></a><div class="cab-header-right"><span class="cab-study"><i></i>Демо</span><span class="cab-avatar" aria-label="Аккаунт">Я</span></div></header>
+  <main class="cab-main">
+    <section class="cab-hero"><div><div class="cab-eyebrow">ЛИЧНЫЙ КАБИНЕТ</div><h1>Мои портфели<span class="cab-title-dot">.</span></h1></div><div class="cab-hero-mark" aria-hidden="true"><span></span><small>ВЫ РЕШАЕТЕ.<br>АГЕНТ ПОМОГАЕТ.</small></div></section>
+    <section class="cab-totals" aria-label="Обзор аккаунта"><div><span>Всего в портфелях</span><strong id="cab-total">—</strong></div><div><span>Мои стратегии</span><strong id="cab-count">—</strong></div></section>
+    <div id="cab-error" class="cab-error" role="alert" hidden></div>
+    <div class="cab-layout">
+      <section class="cab-collection"><div class="cab-section-title"><h2>Портфели</h2><span id="cab-subcount" class="cab-muted"></span></div><div id="portfolio-grid" class="cab-portfolio-grid" aria-live="polite"><div class="cab-skeleton"></div><div class="cab-skeleton"></div></div><div class="cab-actions"><button id="edit-portfolio" class="cab-btn cab-btn-secondary"></button><button id="new-portfolio" class="cab-btn cab-btn-primary"></button></div>
+        <section class="cab-news-prompt"><div class="cab-prompt-icon" id="prompt-icon"></div><div><span class="cab-eyebrow">КОГДА МЕНЯЕТСЯ МИР</span><h3>«Закрыли Ормузский пролив.<br>Что делать с моим портфелем?»</h3><p>Обсудите новость с агентом: он учтёт ваш состав и ограничения, покажет сценарий и поможет не спешить с решением.</p><a id="example-chat" href="/account">Обсудить на примере нефтегаза <span aria-hidden="true">↗</span></a></div></section>
+      </section>
+    </div>
+  </main>
+  <dialog id="create-dialog" class="cab-dialog" aria-labelledby="create-title"><form id="create-form"><div class="cab-dialog-top"><div><span class="cab-eyebrow">ЕЩЁ ОДНА ИДЕЯ</span><h2 id="create-title">Новый портфель</h2></div><button type="button" class="cab-icon-button" data-close="create-dialog" aria-label="Закрыть">✕</button></div><label>Название<input name="title" maxlength="80" required placeholder="Например, дивиденды на будущее"></label><div class="cab-origin-choice"><label><input type="radio" name="strategy_origin" value="own" checked><span><b>Своя стратегия</b></span></label><label><input type="radio" name="strategy_origin" value="external"><span><b>Чужая идея</b></span></label></div><div id="external-source-fields" hidden><div class="cab-format-choice" role="group" aria-label="Формат идеи"><label><input type="radio" name="source_kind" value="video" checked><span>Видео</span></label><label><input type="radio" name="source_kind" value="article"><span>Статья</span></label><label><input type="radio" name="source_kind" value="text"><span>Текст</span></label></div><label id="create-url-label">Ссылка на видео<input name="source_url" type="url" placeholder="https://www.tiktok.com/…"></label><label id="create-video-upload" class="video-upload"><span id="create-video-name">Загрузить видео</span><input id="create-video-file" class="sr" type="file" accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.webm"></label></div><label id="idea-label">Расскажите об идее<textarea name="text" rows="4" maxlength="16000" placeholder="Чего хотите от денег, на какой срок, какой риск допустим?"></textarea></label><div class="cab-form-two"><label>Сумма, ₽<input name="amount_rub" type="number" min="10000" max="10000000000" step="1000" value="500000" required></label><label>Горизонт, лет<input name="horizon_years" type="number" min="1" max="30" value="5" required></label></div><p id="create-error" class="cab-form-error" role="alert"></p><button id="create-submit" class="cab-btn cab-btn-primary" type="submit">Создать портфель →</button></form></dialog>
+  <dialog id="edit-dialog" class="cab-dialog" aria-labelledby="edit-title"><div class="cab-dialog-top"><h2 id="edit-title">Какой портфель редактируем?</h2><button type="button" class="cab-icon-button" data-close="edit-dialog" aria-label="Закрыть">✕</button></div><div id="edit-list" class="cab-edit-list"></div></dialog>
+  <script src="/static/cabinet.js?v=20261116-1"></script><script src="/static/account.js"></script>
+<script src="/static/interactions.js?v=20261116-1"></script>
+</body></html>

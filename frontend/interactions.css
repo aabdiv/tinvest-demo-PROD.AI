@@ -1,0 +1,161 @@
+/* Shared feedback, loaded after each page's styles. Keep hit areas stationary. */
+:root {
+  --ui-hover: #EAEAEA;
+  --ui-pressed: #DEDEDE;
+  --ui-yellow-hover: #F2CA00;
+  --ui-yellow-pressed: #DCB800;
+}
+
+button, a[href], summary, label:has(input[type="radio"]) {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(255, 221, 45, .24);
+}
+button, a[href], summary, .cab-origin-choice span, .cab-format-choice span,
+input, textarea, select {
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease,
+    box-shadow 150ms ease, opacity 150ms ease;
+}
+button:disabled, [aria-disabled="true"] {
+  cursor: not-allowed;
+}
+button[aria-busy="true"] {
+  cursor: progress;
+}
+button:focus-visible, a[href]:focus-visible, summary:focus-visible,
+input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 3px solid #333333;
+  outline-offset: 4px;
+}
+.cab-portfolio:hover, .cm-card:hover {
+  transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button:not(:disabled):hover, summary:hover {
+    border-color: #888888;
+  }
+  button.ghost:not(:disabled):hover, a.ghost:hover,
+  .cab-icon-button:not(:disabled):hover, .mg-link:not(:disabled):hover,
+  .pf-chat-suggestions button:not(:disabled):hover,
+  #pf-attach-news:not(:disabled):hover, .pf-saved:not(:disabled):hover,
+  .chip button:not(:disabled):hover, .rl button:not(:disabled):hover,
+  .pf-source-details summary:hover, .mg-journal summary:hover {
+    background: var(--ui-hover);
+    color: #1C1C1C;
+  }
+  .cab-btn-primary:not(:disabled):hover, button.primary:not(:disabled):hover,
+  .pf-add-idea:not(:disabled):hover, #pf-send-question:not(:disabled):hover,
+  .cab-bottom .active:hover {
+    background: var(--ui-yellow-hover);
+    border-color: var(--ui-yellow-hover);
+  }
+  .cab-btn-secondary:not(:disabled):hover, button.secondary:not(:disabled):hover,
+  .hint:not(:disabled):hover, .mg-mode:not(.selected):hover,
+  .pf-view-tabs button:not(.on):hover, [data-cm-risk]:not(.on):hover,
+  .st:not(.on):hover, .tabs button:not(.on):hover, .choice button:not(.on):hover,
+  .pf-idea-source:hover {
+    background: var(--ui-hover);
+    border-color: #888888;
+  }
+  .mg-mode.selected:hover, #mg-agent.selected:hover {
+    background: var(--ui-yellow-hover);
+    border-color: #333333;
+  }
+  .pf-chat-button:hover, .mg-tools button:not(:disabled):hover {
+    background: #484848;
+    border-color: #FFDD2D;
+  }
+  .cab-portfolio:not(.video):hover, .cm-card:hover {
+    background: #EEEEEE;
+    border-color: #333333;
+    box-shadow: inset 0 0 0 1px #333333;
+  }
+  .cab-portfolio.video:hover {
+    background: #292929;
+    border-color: #FFDD2D;
+    box-shadow: inset 0 0 0 1px #FFDD2D;
+  }
+  .cab-card-arrow svg, .cab-card-foot>span:last-child svg, .cm-card-footer svg {
+    transition: transform 150ms ease;
+  }
+  .cab-portfolio:hover .cab-card-arrow svg,
+  .cab-portfolio:hover .cab-card-foot>span:last-child svg,
+  .cm-card:hover .cm-card-footer svg {
+    transform: translateX(3px);
+  }
+  .cab-origin-choice label:hover>span, .cab-format-choice label:hover>span {
+    border-color: #888888;
+    background: var(--ui-hover);
+  }
+  .cab-origin-choice label:hover input:checked+span,
+  .cab-format-choice label:hover input:checked+span {
+    background: var(--ui-yellow-hover);
+    border-color: #333333;
+  }
+  input:not(:disabled):hover, textarea:not(:disabled):hover, select:not(:disabled):hover {
+    border-color: #888888;
+  }
+  input[type="range"]:hover {
+    filter: brightness(.9);
+  }
+  .cab-bottom a:not(.active):hover, .cab-bottom button:not(.active):hover {
+    background: var(--ui-hover);
+  }
+  .pf-breadcrumb a:hover, .cab-news-prompt a:hover, .mg-tools a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+button:not(:disabled):active, button:not(:disabled).is-pressed,
+summary:active, summary.is-pressed {
+  background: var(--ui-pressed);
+  box-shadow: inset 0 0 0 2px #666666;
+}
+.cab-btn-primary:not(:disabled):active, .cab-btn-primary.is-pressed,
+button.primary:not(:disabled):active, button.primary.is-pressed,
+.pf-add-idea:not(:disabled):active, .pf-add-idea.is-pressed,
+.mg-mode.selected:active, .mg-mode.selected.is-pressed,
+#mg-agent.selected:active, #mg-agent.selected.is-pressed,
+#pf-send-question:not(:disabled):active, #pf-send-question.is-pressed {
+  background: var(--ui-yellow-pressed);
+  box-shadow: inset 0 0 0 2px #8C7600;
+}
+.pf-chat-button:active, .pf-chat-button.is-pressed,
+.mg-tools button:not(:disabled):active, .mg-tools button.is-pressed {
+  background: #555555;
+  box-shadow: inset 0 0 0 2px #FFDD2D;
+}
+.cab-portfolio.is-pressed, .cab-portfolio.is-opening, .cm-card.is-pressed {
+  box-shadow: inset 0 0 0 2px #333333;
+  border-color: #333333;
+}
+.cab-portfolio.video.is-pressed, .cab-portfolio.video.is-opening {
+  box-shadow: inset 0 0 0 2px #FFDD2D;
+  border-color: #FFDD2D;
+}
+.is-opening {
+  cursor: progress;
+}
+.ui-navigating::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 35%;
+  height: 3px;
+  background: #FFDD2D;
+  z-index: 1000;
+  pointer-events: none;
+  animation: ui-navigation 1s ease-in-out infinite alternate;
+}
+@keyframes ui-navigation {
+  to { transform: translateX(185%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+    animation: none !important;
+  }
+  .ui-navigating::after { width: 100%; }
+}

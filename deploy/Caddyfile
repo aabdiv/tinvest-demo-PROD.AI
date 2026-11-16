@@ -1,0 +1,14 @@
+{
+	admin off
+}
+
+{$DEMO_ADDRESS} {
+	basic_auth {
+		{env.DEMO_USER} {env.DEMO_PASSWORD_HASH}
+	}
+	encode gzip
+	header Cache-Control "no-store"
+	reverse_proxy app:8000 {
+		header_up -Authorization
+	}
+}
